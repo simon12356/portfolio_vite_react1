@@ -1,0 +1,312 @@
+import { useEffect, useRef } from 'react'
+import project1Img from './assets/project1.png'
+import project2Img from './assets/project2.png'
+import project3Img from './assets/project3.png'
+
+interface Project {
+  category: string
+  title: string
+  description: string
+  tags: string[]
+  image: string
+  liveLink: string
+  githubLink: string
+}
+
+const projectsData: Project[] = [
+  {
+    category: 'Web Application',
+    title: 'E-Commerce Dashboard',
+    description: 'A comprehensive analytics dashboard for online retailers. Features real-time data visualization and inventory management.',
+    tags: ['Analytics', 'Real-time', 'Inventory'],
+    image: project1Img,
+    liveLink: '#',
+    githubLink: '#',
+  },
+  {
+    category: 'Productivity Tool',
+    title: 'TaskFlow App',
+    description: 'A productivity application focused on Kanban-style project management. Built with React and Firebase.',
+    tags: ['Kanban', 'React', 'Firebase'],
+    image: project2Img,
+    liveLink: '#',
+    githubLink: '#',
+  },
+  {
+    category: 'Fintech',
+    title: 'CoinTrack Crypto',
+    description: 'A cryptocurrency price tracker using public APIs. Includes price alerts and historical charting.',
+    tags: ['Crypto', 'API', 'Finance'],
+    image: project3Img,
+    liveLink: '#',
+    githubLink: '#',
+  },
+]
+
+function Projects() {
+  const trackRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const currentXRef = useRef(0)
+  const targetXRef = useRef(0)
+  const lastScrollYRef = useRef(0)
+
+  useEffect(() => {
+    const track = trackRef.current
+    const container = containerRef.current
+
+    if (!track || !container) return
+
+    let animationId: number
+
+    function updateScrollTarget() {
+      const containerTop = container!.getBoundingClientRect().top + window.scrollY
+      const containerHeight = container!.offsetHeight
+      const windowHeight = window.innerHeight
+
+      const offset = window.scrollY - containerTop
+      const totalScrollDistance = containerHeight - windowHeight
+
+      let scrollPercentage = offset / totalScrollDistance
+      scrollPercentage = Math.max(0, Math.min(1, scrollPercentage))
+
+      const vw = window.innerWidth
+      const maxTranslate = track!.scrollWidth - vw
+
+      targetXRef.current = -maxTranslate * scrollPercentage
+    }
+
+    function animate() {
+      currentXRef.current += (targetXRef.current - currentXRef.current) * 0.07
+      if (track) {
+        track.style.transform = `translateX(${currentXRef.current}px)`
+      }
+      animationId = requestAnimationFrame(animate)
+    }
+
+    function handleScroll() {
+      const currentScroll = window.scrollY
+
+      if (Math.abs(currentScroll - lastScrollYRef.current) > 1) {
+        updateScrollTarget()
+        lastScrollYRef.current = currentScroll
+      }
+    }
+
+    function handleResize() {
+      currentXRef.current = targetXRef.current
+      if (track) {
+        track.style.transform = `translateX(${currentXRef.current}px)`
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleResize)
+
+    // Initial calculation
+    updateScrollTarget()
+    animationId = requestAnimationFrame(animate)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+      cancelAnimationFrame(animationId)
+    }
+  }, [])
+
+  return (
+    <section id="projects">
+      <div className="scroll-container" ref={containerRef}>
+        <div className="sticky-wrapper">
+          <div className="horizontal-track" ref={trackRef}>
+            {projectsData.map((project, index) => (
+              <article className="card" key={index}>
+                <div className="card-image-wrapper">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="card-img"
+                  />
+                </div>
+
+                <div className="card-content-wrapper">
+                  <div className="category">{project.category}</div>
+                  <h2>{project.title}</h2>
+                  <p className="body-text">{project.description}</p>
+                  <div className="footer-tags">
+                    {project.tags.map((tag, tagIndex) => (
+                      <span key={tagIndex}>{tag}</span>
+                    ))}
+                  </div>
+                  <div className="proj-links">
+                    <a href={project.liveLink} className="btn-sm">
+                      Live Demo
+                    </a>
+                    <a
+                      href={project.githubLink}
+                      className="btn-sm"
+                      style={{
+                        background: 'transparent',
+                        color: '#334155',
+                        border: '1px solid #cbd5e1',
+                      }}
+                    >
+                      GitHub
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        :root {
+          --primary-color: #3b82f6;
+          --secondary-color: #1e293b;
+          --text-main: #334155;
+        }
+
+        #projects {
+          padding: 0;
+          background: #0f0f0f;
+          position: relative;
+        }
+
+        .scroll-container {
+          height: 320vh;
+          position: relative;
+        }
+
+        .sticky-wrapper {
+          position: sticky;
+          top: 0;
+          height: 100vh;
+          width: 100%;
+          overflow: hidden;
+        }
+
+        .horizontal-track {
+          display: flex;
+          width: 300vw;
+          height: 100%;
+          will-change: transform;
+        }
+
+        .card {
+          width: 100vw;
+          height: 100vh;
+          display: grid;
+          flex-shrink: 0;
+        }
+
+        .card-image-wrapper {
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+
+        .card-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .card-content-wrapper {
+          background-color: #ffffff;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 8vw;
+        }
+
+        .category {
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          letter-spacing: 0.2em;
+          color: #888;
+          margin-bottom: 2rem;
+          font-weight: 700;
+        }
+
+        h2 {
+          font-family: 'Playfair Display', serif;
+          font-size: 5rem;
+          line-height: 1;
+          margin-bottom: 3rem;
+          font-weight: 400;
+          color: #111;
+        }
+
+        .body-text {
+          font-size: 1.25rem;
+          line-height: 1.8;
+          color: #444;
+          font-weight: 300;
+          margin-bottom: 5rem;
+          max-width: 600px;
+        }
+
+        .footer-tags {
+          border-top: 1px solid #ddd;
+          padding-top: 2rem;
+          display: flex;
+          gap: 3rem;
+          font-family: 'Playfair Display', serif;
+          font-size: 1.2rem;
+          color: #666;
+          font-style: italic;
+        }
+
+        .proj-links {
+          display: flex;
+          gap: 1rem;
+        }
+
+        .btn-sm {
+          font-size: 0.85rem;
+          padding: 0.4rem 1rem;
+          border-radius: 4px;
+          background: var(--secondary-color);
+          color: white;
+          transition: all 0.3s ease;
+          display: inline-block;
+          cursor: pointer;
+          text-decoration: none;
+        }
+
+        .btn-sm:hover {
+          background: var(--primary-color);
+        }
+
+        @media (min-width: 1024px) {
+          .card {
+            grid-template-columns: 60% 40%;
+          }
+          .card-content-wrapper {
+            grid-column: 2;
+          }
+        }
+
+        @media (max-width: 1023px) {
+          .card {
+            grid-template-columns: 1fr;
+            grid-template-rows: 50vh 1fr;
+          }
+          .card-content-wrapper {
+            padding: 3rem;
+          }
+          h2 {
+            font-size: 3rem;
+          }
+          .body-text {
+            font-size: 1rem;
+          }
+        }
+      `}</style>
+    </section>
+  )
+}
+
+export default Projects

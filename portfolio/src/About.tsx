@@ -72,7 +72,7 @@ function About() {
           justify-content: center;
           align-items: flex-start;
           height: 100dvh;
-          padding-top: calc(10vh + 70px);
+          padding-top: clamp(60px, 10vh + 70px, 120px);
           overflow: hidden;
         }
 
@@ -81,8 +81,7 @@ function About() {
           left: 50%;
           top: 61%;
           transform: translate(-50%, -50%);
-          width: 32%;
-          max-width: 480px;
+          width: clamp(200px, 32%, 480px);
           height: auto;
           z-index: 5;
           pointer-events: none;
@@ -102,7 +101,7 @@ function About() {
         
         .paper { 
           display: block; 
-          width: 42%; 
+          width: clamp(200px, 42%, 600px);
           max-width: 90vw; 
           height: auto; 
           transform: translateX(75%); 
@@ -118,7 +117,7 @@ function About() {
         .bush { 
           display: block; 
           position: absolute; 
-          width: 20%; 
+          width: clamp(100px, 20%, 250px);
           max-width: 60vw; 
           height: auto; 
           left: 0; 
@@ -140,7 +139,7 @@ function About() {
         .iced { 
           display: block; 
           position: absolute; 
-          width: 7%; 
+          width: clamp(40px, 7%, 100px);
           max-width: 50vw; 
           height: auto; 
           left: 0; 
@@ -160,7 +159,7 @@ function About() {
         
         .tour { 
           position: absolute; 
-          width: 31%; 
+          width: clamp(180px, 31%, 650px);
           max-width: 650px; 
           height: auto; 
           left: 50%; 
@@ -176,7 +175,7 @@ function About() {
         
         .dashboard { 
           position: absolute; 
-          width: 48%; 
+          width: clamp(200px, 48%, 600px);
           max-width: 600px; 
           height: auto; 
           left: 67%; 
@@ -192,7 +191,7 @@ function About() {
         
         .id { 
           position: absolute; 
-          width: 44%; 
+          width: clamp(150px, 44%, 380px);
           max-width: 380px; 
           height: auto; 
           left: 3%; 
@@ -212,7 +211,7 @@ function About() {
           position: absolute; 
           left: 17%; 
           top: 72%; 
-          width: 7%; 
+          width: clamp(40px, 7%, 250px);
           max-width: 250px; 
           height: auto; 
           z-index: 20; 
@@ -235,7 +234,7 @@ function About() {
           position: absolute; 
           bottom: 85%; 
           left: 50%; 
-          width: 90%; 
+          width: clamp(60px, 90%, 220px);
           max-width: 220px; 
           height: auto; 
           transform: translateX(-50%) scale(0); 
@@ -249,6 +248,17 @@ function About() {
         .folder-wrap:hover .oggy { 
           transform: translateX(-50%) scale(1); 
           opacity: 1; 
+        }
+
+        @media (max-width: 768px) {
+          .paper { transform: translateX(30%); }
+          .paper:hover { transform: translateX(30%) rotate(5deg) scale(1.1); }
+          .bush { transform: translateX(80%) translateY(-25px); }
+          .iced { transform: translateX(400%) translateY(5px); }
+          .tour { transform: translateX(20%) rotate(5deg); }
+          .tour:hover { transform: translateX(20%) rotate(0deg) scale(1.35); }
+          .dashboard { left: 50%; }
+          .folder-wrap { left: 10%; }
         }
       `}</style>
     </section>
