@@ -196,7 +196,7 @@ function About() {
           max-width: 380px; 
           height: auto; 
           left: 3%; 
-          top: -2%; 
+          top: 0%; 
           transform-origin: top center; 
           animation: pendulum 3.5s ease-in-out infinite alternate; 
           z-index: 8; 
