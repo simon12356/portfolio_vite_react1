@@ -4,6 +4,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [previewImg, setPreviewImg] = useState('')
   const [previewVisible, setPreviewVisible] = useState(false)
+  const [isHovering, setIsHovering] = useState(false)
 
   const menuItems = [
     { label: 'About', image: 'https://picsum.photos/seed/about/800/1000', href: '#about' },
@@ -13,6 +14,8 @@ function Header() {
     { label: 'Achievements', image: 'https://picsum.photos/seed/achievements/800/1000', href: '#achievements' },
   ]
 
+  const DEFAULT_IMAGE = 'https://picsum.photos/seed/default/800/1000'
+
   useEffect(() => {
     if (isMenuOpen) {
       document.body.classList.add('menu-open')
@@ -21,6 +24,7 @@ function Header() {
       setTimeout(() => {
         setPreviewVisible(false)
         setPreviewImg('')
+        setIsHovering(false)
       }, 500)
     }
     return () => {
@@ -28,11 +32,29 @@ function Header() {
     }
   }, [isMenuOpen])
 
+  const openMenu = () => {
+    setIsMenuOpen(true)
+    // Show default image when menu opens
+    setTimeout(() => {
+      setPreviewImg(DEFAULT_IMAGE)
+      setPreviewVisible(true)
+    }, 400)
+  }
+
+  const closeMenu = () => {
+    setIsMenuOpen(false)
+  }
+
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
+    if (isMenuOpen) {
+      closeMenu()
+    } else {
+      openMenu()
+    }
   }
 
   const handleMenuItemHover = (imageUrl: string) => {
+    setIsHovering(true)
     if (previewImg !== imageUrl) {
       setPreviewVisible(false)
       setTimeout(() => {
@@ -43,7 +65,17 @@ function Header() {
   }
 
   const handleMenuItemLeave = () => {
-    // Keep the last hovered image visible
+    setIsHovering(false)
+    // Switch back to default image
+    setTimeout(() => {
+      if (!isHovering) {
+        setPreviewVisible(false)
+        setTimeout(() => {
+          setPreviewImg(DEFAULT_IMAGE)
+          setPreviewVisible(true)
+        }, 200)
+      }
+    }, 300)
   }
 
   const handleMenuClose = () => {
@@ -72,8 +104,17 @@ function Header() {
 
       {/* Fullscreen Menu Overlay */}
       <nav className={`menu-overlay ${isMenuOpen ? 'active' : ''}`} id="menuOverlay">
+        {/* Close Button (×) */}
+        <button 
+          className="menu-close-btn" 
+          onClick={closeMenu} 
+          aria-label="Close menu"
+        >
+          &times;
+        </button>
+
         <div className="menu-container">
-          <ul className={`menu-links ${previewImg ? 'has-hover' : ''}`} id="menuLinks">
+          <ul className={`menu-links ${isHovering ? 'has-hover' : ''}`} id="menuLinks">
             {menuItems.map((item, index) => (
               <li 
                 key={item.label}
@@ -101,14 +142,12 @@ function Header() {
             ))}
           </ul>
           <div className="preview-image-container">
-            {previewImg && (
-              <img 
-                src={previewImg} 
-                alt="Preview" 
-                className={`preview-img ${previewVisible ? 'visible' : ''}`} 
-                id="previewImg"
-              />
-            )}
+            <img 
+              src={previewImg || DEFAULT_IMAGE} 
+              alt="Preview" 
+              className={`preview-img ${previewVisible ? 'visible' : ''}`} 
+              id="previewImg"
+            />
           </div>
         </div>
       </nav>
@@ -178,7 +217,7 @@ function Header() {
           display: block; 
           height: 1.2em; 
           overflow: hidden; 
-          width: 60px; 
+          width: 80px; 
           text-align: center; 
         }
 
@@ -301,6 +340,35 @@ function Header() {
           transform: scale(1); 
         }
 
+        /* Close Button (×) */
+        .menu-close-btn {
+          position: absolute;
+          top: 2rem;
+          right: 3rem;
+          background: none;
+          border: none;
+          color: #ffffff;
+          font-family: 'Playfair Display', serif;
+          font-weight: 400;
+          font-size: clamp(2.8rem, 5vw, 4.2rem);
+          line-height: 1;
+          cursor: pointer;
+          z-index: 3000;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.4s ease, transform 0.3s ease;
+        }
+
+        .menu-overlay.active .menu-close-btn {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        .menu-close-btn:hover {
+          transform: rotate(90deg);
+          opacity: 0.8;
+        }
+
         @media (max-width: 768px) {
           .menu-overlay { 
             padding: 2rem; 
@@ -310,6 +378,11 @@ function Header() {
           }
           .preview-image-container { 
             display: none; 
+          }
+          .menu-close-btn {
+            top: 1.2rem;
+            right: 1.5rem;
+            font-size: clamp(2.2rem, 8vw, 3rem);
           }
         }
       `}</style>
