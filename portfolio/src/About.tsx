@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import tornPaper from './assets/torn5.png'
 import lushBush from './assets/lush.png'
 import icedImage from './assets/iced.png'
@@ -10,8 +9,6 @@ import oggyImg from './assets/oggy.png'
 import signatureImg from './assets/signature.png'
 
 function About() {
-  const [isActive, setIsActive] = useState(false)
-
   return (
     <section className="about-section">
       {/* Grid Background */}
@@ -38,10 +35,7 @@ function About() {
       />
 
       {/* Paper + Bush + Iced Wrapper */}
-      <div 
-        className={`image-wrapper ${isActive ? 'active' : ''}`}
-        onClick={() => setIsActive(!isActive)}
-      >
+      <div className="image-wrapper">
         <img src={tornPaper} className="paper" alt="Torn Paper" />
         <img src={lushBush} className="bush" alt="Lush Bush" />
         <img src={icedImage} className="iced" alt="Iced" />
@@ -81,7 +75,7 @@ function About() {
           left: 50%;
           top: 61%;
           transform: translate(-50%, -50%);
-          width: clamp(200px, 32%, 480px);
+          width: clamp(200px, 22%, 480px);
           height: auto;
           z-index: 5;
           pointer-events: none;
@@ -91,38 +85,39 @@ function About() {
 
         .image-wrapper { 
           position: relative; 
-          transform: rotate(-5deg); 
-          transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-          cursor: pointer; 
-        }
-        .image-wrapper.active { 
-          transform: rotate(0deg); 
+          width: 100%;
+          height: 100%;
+          transform: rotate(-5deg);
+          pointer-events: none;
         }
         
         .paper { 
           display: block; 
-          width: clamp(200px, 42%, 600px);
-          max-width: 90vw; 
+          width: clamp(180px, 31%, 700px);
+          max-width: 700px; 
           height: auto; 
-          transform: translateX(75%); 
+          position: absolute; 
+          left: 50%;
+          top: 18%;
+          transform: translate(-50%, -50%) rotate(-5deg);
           transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
           background-color: transparent; 
-          position: relative; 
           z-index: 1; 
+          pointer-events: auto; 
         }
         .paper:hover { 
-          transform: translateX(75%) rotate(5deg) scale(1.1); 
+          transform: translate(-50%, -50%) rotate(0deg) scale(1.1); 
         }
         
         .bush { 
           display: block; 
           position: absolute; 
-          width: clamp(100px, 20%, 250px);
+          width: clamp(100px, 15%, 470px);
           max-width: 60vw; 
           height: auto; 
-          left: 0; 
-          top: -9%; 
-          transform: translateX(135%) translateY(-45px); 
+          left: 39%;
+          top: -3%;
+          transform: translate(-50%, -45px);
           transition: transform 0.4s ease; 
           z-index: 2; 
           pointer-events: auto; 
@@ -132,19 +127,19 @@ function About() {
         }
         
         @keyframes bushBob { 
-          from { transform: translateX(135%) translateY(-45px); } 
-          to { transform: translateX(135%) translateY(-25px); } 
+          from { transform: translate(-50%, -45px); } 
+          to { transform: translate(-50%, -25px); } 
         }
         
         .iced { 
           display: block; 
           position: absolute; 
-          width: clamp(40px, 7%, 100px);
+          width: clamp(40px, 5%, 500px);
           max-width: 50vw; 
           height: auto; 
-          left: 0; 
-          top: 22%; 
-          transform: translateX(765%) translateY(10px); 
+          left: 55%;
+          top: 10%;
+          transform: translate(-50%, 10px);
           z-index: 3; 
           pointer-events: auto; 
         }
@@ -153,8 +148,8 @@ function About() {
         }
         
         @keyframes icedBob { 
-          from { transform: translateX(765%) translateY(10px); } 
-          to { transform: translateX(765%) translateY(-15px); } 
+          from { transform: translate(-50%, 10px); } 
+          to { transform: translate(-50%, -15px); } 
         }
         
         .tour { 
@@ -162,40 +157,40 @@ function About() {
           width: clamp(180px, 31%, 650px);
           max-width: 650px; 
           height: auto; 
-          left: 50%; 
-          top: 17%; 
-          transform: translateX(40%) rotate(5deg); 
+          left: 50%;
+          top: 17%;
+          transform: translate(40%, 0) rotate(5deg);
           transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
           cursor: pointer; 
           z-index: 10; 
         }
         .tour:hover { 
-          transform: translateX(40%) rotate(0deg) scale(1.35); 
+          transform: translate(40%, 0) rotate(0deg) scale(1.35); 
         }
         
         .dashboard { 
           position: absolute; 
-          width: clamp(200px, 48%, 600px);
+          width: clamp(200px, 39%, 800px);
           max-width: 600px; 
           height: auto; 
-          left: 67%; 
-          top: 41%; 
-          transform: rotate(5deg); 
+          left: 84%;
+          top: 71%;
+          transform: translate(-50%, -50%) rotate(5deg);
           transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
           cursor: pointer; 
           z-index: 9; 
         }
         .dashboard:hover { 
-          transform: rotate(0deg) scale(1.15); 
+          transform: translate(-50%, -50%) rotate(0deg) scale(1.15); 
         }
         
         .id { 
           position: absolute; 
-          width: clamp(150px, 44%, 380px);
-          max-width: 380px; 
+          width: clamp(280px, 23%,490px);
+          
           height: auto; 
-          left: 3%; 
-          top: 0%; 
+          left: 3%;
+          top: 0%;
           transform-origin: top center; 
           animation: pendulum 3.5s ease-in-out infinite alternate; 
           z-index: 8; 
@@ -209,8 +204,8 @@ function About() {
         
         .folder-wrap { 
           position: absolute; 
-          left: 17%; 
-          top: 72%; 
+          left: 17%;
+          top: 72%;
           width: clamp(40px, 7%, 250px);
           max-width: 250px; 
           height: auto; 
@@ -251,13 +246,15 @@ function About() {
         }
 
         @media (max-width: 768px) {
-          .paper { transform: translateX(30%); }
-          .paper:hover { transform: translateX(30%) rotate(5deg) scale(1.1); }
-          .bush { transform: translateX(80%) translateY(-25px); }
-          .iced { transform: translateX(400%) translateY(5px); }
-          .tour { transform: translateX(20%) rotate(5deg); }
-          .tour:hover { transform: translateX(20%) rotate(0deg) scale(1.35); }
-          .dashboard { left: 50%; }
+          .paper { 
+            left: 50%;
+            top: 35%;
+          }
+          .bush { left: 15%; }
+          .iced { left: 60%; top: 18%; }
+          .tour { transform: translate(20%, 0) rotate(5deg); }
+          .tour:hover { transform: translate(20%, 0) rotate(0deg) scale(1.35); }
+          .dashboard { left: 50%; top: 65%; }
           .folder-wrap { left: 10%; }
         }
       `}</style>
