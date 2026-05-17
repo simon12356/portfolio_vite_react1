@@ -1,117 +1,121 @@
-import { useEffect, useRef } from 'react'
-import project1Img from './assets/project1.png'
-import project2Img from './assets/project2.png'
-import project3Img from './assets/project3.png'
+import { useEffect, useRef } from "react";
+import project1Img from "./assets/project1.png";
+import project2Img from "./assets/project2.png";
+import project3Img from "./assets/project3.png";
 
 interface Project {
-  category: string
-  title: string
-  description: string
-  tags: string[]
-  image: string
-  liveLink: string
-  githubLink: string
+  category: string;
+  title: string;
+  description: string;
+  tags: string[];
+  image: string;
+  liveLink: string;
+  githubLink: string;
 }
 
 const projectsData: Project[] = [
   {
-    category: 'Web Application',
-    title: 'E-Commerce Dashboard',
-    description: 'A comprehensive analytics dashboard for online retailers. Features real-time data visualization and inventory management.',
-    tags: ['Analytics', 'Real-time', 'Inventory'],
+    category: "Web Application",
+    title: "E-Commerce Dashboard",
+    description:
+      "A comprehensive analytics dashboard for online retailers. Features  data visualization and inventory management.",
+    tags: ["Analytics", "Inventory"],
     image: project1Img,
-    liveLink: '#',
-    githubLink: '#',
+    liveLink: "#",
+    githubLink: "#",
   },
   {
-    category: 'Productivity Tool',
-    title: 'TaskFlow App',
-    description: 'A productivity application focused on Kanban-style project management. Built with React and Firebase.',
-    tags: ['Kanban', 'React', 'Firebase'],
-    image: project2Img,
-    liveLink: '#',
-    githubLink: '#',
-  },
-  {
-    category: 'Fintech',
-    title: 'CoinTrack Crypto',
-    description: 'A cryptocurrency price tracker using public APIs. Includes price alerts and historical charting.',
-    tags: ['Crypto', 'API', 'Finance'],
+    category: "AI Healthcare",
+    title: "Brain Tumor Detection",
+    description:
+      "An AI-powered brain tumor detection system using deep learning and MRI scan analysis.",
+    tags: ["AI", "Healthcare", "Deep Learning"],
     image: project3Img,
-    liveLink: '#',
-    githubLink: '#',
+    liveLink: "#",
+    githubLink: "#",
   },
-]
+  {
+    category: "AI Accessibility",
+    title: "Sign Language Detection",
+    description:
+      "An AI-powered sign language interpretation system that converts hand gestures into understandable text.",
+    tags: ["AI", "Sign Language", "Computer Vision"],
+    image: project2Img,
+    liveLink: "#",
+    githubLink: "#",
+  },
+];
 
 function Projects() {
-  const trackRef = useRef<HTMLDivElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const currentXRef = useRef(0)
-  const targetXRef = useRef(0)
-  const lastScrollYRef = useRef(0)
+  const trackRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const currentXRef = useRef(0);
+  const targetXRef = useRef(0);
+  const lastScrollYRef = useRef(0);
 
   useEffect(() => {
-    const track = trackRef.current
-    const container = containerRef.current
+    const track = trackRef.current;
+    const container = containerRef.current;
 
-    if (!track || !container) return
+    if (!track || !container) return;
 
-    let animationId: number
+    let animationId: number;
 
     function updateScrollTarget() {
-      const containerTop = container!.getBoundingClientRect().top + window.scrollY
-      const containerHeight = container!.offsetHeight
-      const windowHeight = window.innerHeight
+      const containerTop =
+        container!.getBoundingClientRect().top + window.scrollY;
+      const containerHeight = container!.offsetHeight;
+      const windowHeight = window.innerHeight;
 
-      const offset = window.scrollY - containerTop
-      const totalScrollDistance = containerHeight - windowHeight
+      const offset = window.scrollY - containerTop;
+      const totalScrollDistance = containerHeight - windowHeight;
 
-      let scrollPercentage = offset / totalScrollDistance
-      scrollPercentage = Math.max(0, Math.min(1, scrollPercentage))
+      let scrollPercentage = offset / totalScrollDistance;
+      scrollPercentage = Math.max(0, Math.min(1, scrollPercentage));
 
-      const vw = window.innerWidth
-      const maxTranslate = track!.scrollWidth - vw
+      const vw = window.innerWidth;
+      const maxTranslate = track!.scrollWidth - vw;
 
-      targetXRef.current = -maxTranslate * scrollPercentage
+      targetXRef.current = -maxTranslate * scrollPercentage;
     }
 
     function animate() {
-      currentXRef.current += (targetXRef.current - currentXRef.current) * 0.07
+      currentXRef.current += (targetXRef.current - currentXRef.current) * 0.07;
       if (track) {
-        track.style.transform = `translateX(${currentXRef.current}px)`
+        track.style.transform = `translateX(${currentXRef.current}px)`;
       }
-      animationId = requestAnimationFrame(animate)
+      animationId = requestAnimationFrame(animate);
     }
 
     function handleScroll() {
-      const currentScroll = window.scrollY
+      const currentScroll = window.scrollY;
 
       if (Math.abs(currentScroll - lastScrollYRef.current) > 1) {
-        updateScrollTarget()
-        lastScrollYRef.current = currentScroll
+        updateScrollTarget();
+        lastScrollYRef.current = currentScroll;
       }
     }
 
     function handleResize() {
-      currentXRef.current = targetXRef.current
+      currentXRef.current = targetXRef.current;
       if (track) {
-        track.style.transform = `translateX(${currentXRef.current}px)`
+        track.style.transform = `translateX(${currentXRef.current}px)`;
       }
     }
 
-    window.addEventListener('scroll', handleScroll)
-    window.addEventListener('resize', handleResize)
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
 
     // Initial calculation
-    updateScrollTarget()
-    animationId = requestAnimationFrame(animate)
+    updateScrollTarget();
+    animationId = requestAnimationFrame(animate);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleResize)
-      cancelAnimationFrame(animationId)
-    }
-  }, [])
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
 
   return (
     <section id="projects">
@@ -145,9 +149,9 @@ function Projects() {
                       href={project.githubLink}
                       className="btn-sm"
                       style={{
-                        background: 'transparent',
-                        color: '#334155',
-                        border: '1px solid #cbd5e1',
+                        background: "transparent",
+                        color: "#334155",
+                        border: "1px solid #cbd5e1",
                       }}
                     >
                       GitHub
@@ -306,7 +310,7 @@ function Projects() {
         }
       `}</style>
     </section>
-  )
+  );
 }
 
-export default Projects
+export default Projects;

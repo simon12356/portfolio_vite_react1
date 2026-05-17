@@ -1,3 +1,7 @@
+import portfolio from "./assets/portfolio_image.png" 
+
+
+
 function Qualifications() {
   return (
     <section id="qualifications">
@@ -16,7 +20,7 @@ function Qualifications() {
 
             <div className="qual-content">
               <p className="qual-intro">
-                Hey, I'm Suman and I'm currently pursuing B.Tech in AIML. I'm a full-stack developer and UI designer passionate about building with AI, prototyping ideas, and exploring the edge of design and technology.
+                Hey, I'm Suman and I'm currently pursuing B.Tech in AIML. I'm a full-stack developer and UI designer passionate about building , prototyping ideas, and exploring the edge of design and technology.
               </p>
 
               <div className="qual-block">
@@ -54,13 +58,13 @@ function Qualifications() {
               </div>
             </div>
 
-            <a href="#" className="cv-link">↓ curriculum vitae</a>
+            
           </div>
 
           {/* Right Side with Image and Spinning Circle */}
           <div className="qual-right">
             <img 
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format" 
+              src={portfolio}
               alt="Suman portrait" 
               className="qual-right-img"
             />
@@ -81,11 +85,7 @@ function Qualifications() {
               </div>
             </div>
 
-            <div className="dots-grid">
-              <span></span><span></span><span></span>
-              <span></span><span></span><span></span>
-              <span></span><span></span><span></span>
-            </div>
+           
           </div>
         </div>
       </div>
@@ -339,30 +339,7 @@ function Qualifications() {
           }
         }
 
-        .dots-grid {
-          position: absolute;
-          top: 3rem;
-          right: 2.5rem;
-          display: grid;
-          grid-template-columns: repeat(3, 7px);
-          gap: 7px;
-          opacity: 0.6;
-          z-index: 2;
-        }
-
-        .dots-grid span {
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          background: #6b7280;
-          transition: all 0.3s ease;
-        }
-
-        .dots-grid span:nth-child(7),
-        .dots-grid span:nth-child(8),
-        .dots-grid span:nth-child(9) {
-          background: #10b981;
-        }
+        
 
         /* Responsive Styles */
         @media (max-width: 900px) {

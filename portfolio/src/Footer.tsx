@@ -64,16 +64,16 @@ function Footer() {
   }, [])
 
   const openLinkedIn = useCallback(() => {
-    window.open('https://linkedin.com/in/yourusername', '_blank', 'noopener,noreferrer')
+    window.open('https://www.linkedin.com/in/suman-maity-730519347/', '_blank', 'noopener,noreferrer')
   }, [])
 
   const openGitHub = useCallback(() => {
-    window.open('https://github.com/yourusername', '_blank', 'noopener,noreferrer')
+    window.open('https://github.com/simon12356', '_blank', 'noopener,noreferrer')
   }, [])
 
   return (
     <>
-      <footer>
+      <footer id="contact">
         <div className="inner">
           <div className="top">
             <div className="label-contact">CONTACT</div>
@@ -93,18 +93,18 @@ function Footer() {
                 <div className="row-label">NEW BUSINESS</div>
                 <button 
                   className="email" 
-                  onClick={() => copyToClipboard('hello@yourdomain.com')}
+                  onClick={() => copyToClipboard('sumanmaity721645@gmail.com')}
                 >
-                  hello@yourdomain.com
+                  sumanmaity721645@gmail.com
                 </button>
               </div>
               <div className="contact-row">
                 <div className="row-label">GENERAL</div>
                 <button 
                   className="email" 
-                  onClick={() => copyToClipboard('work@yourdomain.com')}
+                  onClick={() => copyToClipboard('4222suman@gmail.com')}
                 >
-                  work@yourdomain.com
+                  4222suman@gmail.com
                 </button>
               </div>
             </div>

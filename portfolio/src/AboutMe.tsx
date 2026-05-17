@@ -23,12 +23,11 @@ function AboutMe() {
                 <svg className="doodle star" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="1.6">
                   <path d="M12 2l2 5 5 1-4 3 1 5-4-2.5L8 16l1-5-4-3 5-1z"/>
                 </svg>
-                <span className="box">I build with AI,</span> prototyping ideas and exploring
+                <span className="box">I build with newTech,</span> prototyping ideas and exploring
                 <br/>the edge of design and technology.
               </p>
             </div>
 
-            <a href="#projects" className="btn-sm" style={{ padding: '0.8rem 1.5rem', fontSize: '1rem' }}>View My Work</a>
           </div>
           <div className="profile-img-wrapper">
             <img src="https://picsum.photos/seed/profile/400/400" alt="Suman Profile" className="profile-img"/>

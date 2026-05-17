@@ -8,10 +8,10 @@ function Header() {
 
   const menuItems = [
     { label: 'About', image: 'https://picsum.photos/seed/about/800/1000', href: '#about' },
-    { label: 'Location', image: 'https://picsum.photos/seed/location/800/1000', href: '#abode' },
+    
     { label: 'Qualifications', image: 'https://picsum.photos/seed/qualifications/800/1000', href: '#qualifications' },
     { label: 'Projects', image: 'https://picsum.photos/seed/projects/800/1000', href: '#projects' },
-    { label: 'Achievements', image: 'https://picsum.photos/seed/achievements/800/1000', href: '#achievements' },
+    { label: 'Contact', image: 'https://picsum.photos/seed/achievements/800/1000', href: '#contact' },
   ]
 
   const DEFAULT_IMAGE = 'https://picsum.photos/seed/default/800/1000'
