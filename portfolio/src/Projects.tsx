@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import project1Img from "./assets/project1.png";
-import project2Img from "./assets/project2.png";
-import project3Img from "./assets/project3.png";
+import project2Img from "./assets/sign.png";
+import project3Img from "./assets/tumor.jpg";
 
 interface Project {
   category: string;
@@ -18,7 +18,7 @@ const projectsData: Project[] = [
     category: "Web Application",
     title: "E-Commerce Dashboard",
     description:
-      "A comprehensive analytics dashboard for online retailers. Features  data visualization and inventory management.",
+      "A comprehensive analytics dashboard for online retailers. Features data visualization and inventory management.",
     tags: ["Analytics", "Inventory"],
     image: project1Img,
     liveLink: "#",
@@ -49,9 +49,6 @@ const projectsData: Project[] = [
 function Projects() {
   const trackRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const currentXRef = useRef(0);
-  const targetXRef = useRef(0);
-  const lastScrollYRef = useRef(0);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -59,12 +56,10 @@ function Projects() {
 
     if (!track || !container) return;
 
-    let animationId: number;
-
-    function updateScrollTarget() {
+    function updateScroll() {
       const containerTop =
-        container!.getBoundingClientRect().top + window.scrollY;
-      const containerHeight = container!.offsetHeight;
+        container.getBoundingClientRect().top + window.scrollY;
+      const containerHeight = container.offsetHeight;
       const windowHeight = window.innerHeight;
 
       const offset = window.scrollY - containerTop;
@@ -73,47 +68,20 @@ function Projects() {
       let scrollPercentage = offset / totalScrollDistance;
       scrollPercentage = Math.max(0, Math.min(1, scrollPercentage));
 
-      const vw = window.innerWidth;
-      const maxTranslate = track!.scrollWidth - vw;
+      const maxTranslate = track.scrollHeight - windowHeight;
+      const targetY = -maxTranslate * scrollPercentage;
 
-      targetXRef.current = -maxTranslate * scrollPercentage;
+      track.style.transform = `translateY(${targetY}px)`;
     }
 
-    function animate() {
-      currentXRef.current += (targetXRef.current - currentXRef.current) * 0.07;
-      if (track) {
-        track.style.transform = `translateX(${currentXRef.current}px)`;
-      }
-      animationId = requestAnimationFrame(animate);
-    }
+    window.addEventListener("scroll", updateScroll);
+    window.addEventListener("resize", updateScroll);
 
-    function handleScroll() {
-      const currentScroll = window.scrollY;
-
-      if (Math.abs(currentScroll - lastScrollYRef.current) > 1) {
-        updateScrollTarget();
-        lastScrollYRef.current = currentScroll;
-      }
-    }
-
-    function handleResize() {
-      currentXRef.current = targetXRef.current;
-      if (track) {
-        track.style.transform = `translateX(${currentXRef.current}px)`;
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
-
-    // Initial calculation
-    updateScrollTarget();
-    animationId = requestAnimationFrame(animate);
+    updateScroll();
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationId);
+      window.removeEventListener("scroll", updateScroll);
+      window.removeEventListener("resize", updateScroll);
     };
   }, []);
 
@@ -121,7 +89,7 @@ function Projects() {
     <section id="projects">
       <div className="scroll-container" ref={containerRef}>
         <div className="sticky-wrapper">
-          <div className="horizontal-track" ref={trackRef}>
+          <div className="vertical-track" ref={trackRef}>
             {projectsData.map((project, index) => (
               <article className="card" key={index}>
                 <div className="card-image-wrapper">
@@ -140,22 +108,6 @@ function Projects() {
                     {project.tags.map((tag, tagIndex) => (
                       <span key={tagIndex}>{tag}</span>
                     ))}
-                  </div>
-                  <div className="proj-links">
-                    <a href={project.liveLink} className="btn-sm">
-                      Live Demo
-                    </a>
-                    <a
-                      href={project.githubLink}
-                      className="btn-sm"
-                      style={{
-                        background: "transparent",
-                        color: "#334155",
-                        border: "1px solid #cbd5e1",
-                      }}
-                    >
-                      GitHub
-                    </a>
                   </div>
                 </div>
               </article>
@@ -190,15 +142,15 @@ function Projects() {
           overflow: hidden;
         }
 
-        .horizontal-track {
+        .vertical-track {
           display: flex;
-          width: 300vw;
-          height: 100%;
-          will-change: transform;
+          flex-direction: column;
+          width: 100%;
+          height: 300vh;
         }
 
         .card {
-          width: 100vw;
+          width: 100%;
           height: 100vh;
           display: grid;
           flex-shrink: 0;
@@ -263,27 +215,6 @@ function Projects() {
           font-style: italic;
         }
 
-        .proj-links {
-          display: flex;
-          gap: 1rem;
-        }
-
-        .btn-sm {
-          font-size: 0.85rem;
-          padding: 0.4rem 1rem;
-          border-radius: 4px;
-          background: var(--secondary-color);
-          color: white;
-          transition: all 0.3s ease;
-          display: inline-block;
-          cursor: pointer;
-          text-decoration: none;
-        }
-
-        .btn-sm:hover {
-          background: var(--primary-color);
-        }
-
         @media (min-width: 1024px) {
           .card {
             grid-template-columns: 60% 40%;
@@ -306,6 +237,7 @@ function Projects() {
           }
           .body-text {
             font-size: 1rem;
+            margin-bottom: 2rem;
           }
         }
       `}</style>
