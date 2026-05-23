@@ -57,8 +57,11 @@ function Projects() {
     if (!track || !container) return;
 
     function updateScroll() {
-      const containerTop =
-        container.getBoundingClientRect().top + window.scrollY;
+      // Add null checks for all DOM element accesses
+      if (!track || !container) return;
+      
+      const containerRect = container.getBoundingClientRect();
+      const containerTop = containerRect.top + window.scrollY;
       const containerHeight = container.offsetHeight;
       const windowHeight = window.innerHeight;
 
